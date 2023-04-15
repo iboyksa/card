@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بطاقة المعايدة</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Andalus&display=swap');
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #card-container {
+            position: relative;
+            display: inline-block;
+            border: 5px solid gold;
+            border-radius: 10px;
+            width: 300px;
+            height: 500px;
+            margin-bottom: 20px;
+        }
+
+        #card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #text-overlay {
+            position: absolute;
+            top: 85%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 25px;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            white-space: nowrap;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script>
+</head>
+<body>
+    <div id="card-container">
+        <img id="card-image" src="card-image1.jpg" alt="Greeting Card">
+        <div id="text-overlay">هنا ✍🏻</div>
+    </div>
+
+    <input type="text" id="name-input" placeholder="أدخل اسمك هنا">
+
+    <label for="card-selector">اختر الصورة:</label>
+    <select id="card-selector">
+        <option value="card-image1.jpg">صورة 1</option>
+        <option value="card-image2.jpg">صورة 2</option>
+        <option value="card-image3.jpg">صورة 3</option>
+    </select>
+	<label for="font-selector">اختر الخط:</label>
+<select id="font-selector">
+    <option value="'Arial', sans-serif">Arial</option>
+    <option value="'Courier New', monospace">Courier New</option>
+    <option value="'Georgia', serif">Georgia</option>
+    <option value="'Times New Roman', serif">Times New Roman</option>
+    <option value="'Andalus', sans-serif">Andalus</option>
+</select>
+
+    <button id="apply-text">تطبيق النص</button>
+    <button id="download-card">تحميل البطاقة</button>
+
+    <script>
+        document.getElementById('apply-text').addEventListener('click', function () {
+            const textOverlay = document.getElementById('text-overlay');
+            const nameInput = document.getElementById('name-input');
+            textOverlay.textContent = nameInput.value;
+        });
+
+        document.getElementById('apply-text').addEventListener('click', function () {
+            const textOverlay = document.getElementById('text-overlay');
+            const fontSelector = document.getElementById('font-selector');
+            textOverlay.style.fontFamily = fontSelector.value;
+    });
+
+        document.getElementById('card-selector').addEventListener('change', function () {
+            const cardImage = document.getElementById('card-image');
+            cardImage.src = this.value;
+        });
+
+        document.getElementById('download-card').addEventListener('click', function () {
+            const cardContainer = document.getElementById('card-container');
+            html2canvas(cardContainer).then(canvas => {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL();
+                link.download = 'greeting-card.png';
+                link.click();
+            });
+        });
+    </script>
+</body>
+</html>
